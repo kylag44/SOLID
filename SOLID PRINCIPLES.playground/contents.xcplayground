@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<playground version='6.0' target-platform='ios' display-mode='rendered' executeOnSourceChanges='false'>
+    <pages>
+        <page name='SOLID Into'/>
+        <page name='Copy Program'/>
+        <page name='SRP'/>
+        <page name='OCP'/>
+        <page name='LSP'/>
+        <page name='ISP'/>
+        <page name='DIP'/>
+    </pages>
+</playground>
