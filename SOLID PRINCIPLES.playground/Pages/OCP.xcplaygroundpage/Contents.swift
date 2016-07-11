@@ -206,7 +206,9 @@ class MyDestinationVC: UIViewController, DataPasserInterface {
 
 class MyVC: UIViewController {
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        let vc = segue.destinationViewController as! DataPasserInterface
+        guard let vc = segue.destinationViewController as? DataPasserInterface else {
+            return
+        }
         vc.dataPasser("some data passed in")
     }
 }
