@@ -41,7 +41,7 @@ class Purchase1 {
     
     func chargeUser() {
         // what if I want to use a different service?
-        stripe.charge(User(), amount: amount!)
+        stripe.charge(user: User(), amount: amount!)
     }
 }
 
@@ -75,7 +75,7 @@ class Purchase2 {
     
     func chargeUser() {
         // what if I want to use a different service?
-        service.charge(User(), amount: amount!)
+        service.charge(user: User(), amount: amount!)
     }
 }
 
@@ -107,8 +107,8 @@ func drawCircle(circle:Circle) {
     print("circle drawn")
 }
 
-let c1 = Circle(radius: 20, center: CGPointZero)
-let s1 = Square(side: 29, point: CGPointZero)
+let c1 = Circle(radius: 20, center: .zero)
+let s1 = Square(side: 29, point: .zero)
 let shapes:[Any] = [c1, s1]
 
 // in a real application there would be many more shapes, and there would likely be switches everywhere to handle everything, which is a total nightmare especially if you have to add a new shape!
@@ -116,14 +116,14 @@ let shapes:[Any] = [c1, s1]
 func printAllShapes(shapes:[Any]) {
     for shape in shapes {
         if shape is Circle {
-            drawCircle(shape as! Circle)
+            drawCircle(circle: shape as! Circle)
         } else if shape is Square {
-            drawSquare(shape as! Square)
+            drawSquare(square: shape as! Square)
         }
     }
 }
 
-printAllShapes(shapes)
+printAllShapes(shapes: shapes)
 
 
 // Shapes with OCP
@@ -165,8 +165,8 @@ struct Triangle: Shape {
     }
 }
 
-let c2 = Circle2(radius: 20, center: CGPointZero)
-let s2 = Square2(side: 29, point: CGPointZero)
+let c2 = Circle2(radius: 20, center: .zero)
+let s2 = Square2(side: 29, point: .zero)
 let t1 = Triangle()
 let shapes2:[Shape] = [c2, s2, t1]
 
@@ -175,7 +175,7 @@ func printAllShapes2(shapes:[Shape]) {
     shapes.map{ $0.draw() }
 }
 
-printAllShapes2(shapes2)
+printAllShapes2(shapes: shapes2)
 
 
 /*:
@@ -205,12 +205,13 @@ class MyDestinationVC: UIViewController, DataPasserInterface {
 // This
 
 class MyVC: UIViewController {
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        guard let vc = segue.destinationViewController as? DataPasserInterface else {
-            return
-        }
-        vc.dataPasser("some data passed in")
+  override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+    guard let vc = segue.destination as? DataPasserInterface else {
+      return
     }
+    vc.dataPasser(data:"some data passed in" as AnyObject)
+  }
+
 }
 
 

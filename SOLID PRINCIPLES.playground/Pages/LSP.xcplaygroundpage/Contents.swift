@@ -15,14 +15,14 @@ import Foundation
 class BaseClass { }
 class DerivedClass: BaseClass {}
 func f(p:BaseClass) { }
-f(DerivedClass()) // this misbehaves
+f(p: DerivedClass()) // this misbehaves
 
 // Square / Rectangle Classic Example
 
 class Rectangle {
     // stored
-    private var w:Int
-    private var h:Int
+    fileprivate var w:Int
+    fileprivate var h:Int
     
     // computed
     var width: Int {
@@ -81,7 +81,7 @@ func violator(rect:Rectangle) {
     assert(area == 20, "\(area) should be equal to 20")
 }
 
-violator(Square(w: 12, h: 12))
+violator(rect: Square(w: 12, h: 12))
 
 /*:
  * `violator()` malfunctions when we pass it a square
