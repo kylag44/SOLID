@@ -6,13 +6,14 @@ import Foundation
 
 /*:
  ## Dependency Inversion Principle (DIP)
+ * The D.
  * "a: High-level modules should not depend on low-level modules. Both should depend on abstractions".
  * "b: Abstractions should not depend on details. Details should depend on abstractions"
- 
  * Employing DIP in OOD is important for constructing code that is more resilient to change.
+ * Explain how our Copy program refactor concerns DIP.
  */
 
-// Button Example not using DIP
+//: Button Example not using DIP
 
 class Lamp1 {
   // affects external environment
@@ -45,19 +46,19 @@ class Button1 {
 }
 
 /*:
- * "DIP can be applied whenever one class sends a message to another"
+ * "DIP can be applied whenever one class sends a message to another".
  * We can see that Button has a concrete dependency on Lamp.
  * Button sends a message to Lamp.
  * The problem is the Button object would be affected if there were changes to the signature of methods it called on the Lamp object.
  * The Button object cannot be reused to control, say, the Motor object.
  * Button objects control Lamps & only Lamps.
  * The "high-level policy" of the program hasn't been separated from the "low-level implementation".
- * The "high-level policy" or "underlying abstraction" of our program is to "detect an on/off gesture from a user and relay that gesture to a target object. What mechanism is used to detect the user gesture? Irrelevant! What is the target object? Irrelevant! These are details that do not impact the abstraction".
- * What we want to avoid is making this "high-level policy" (abstract) depend on something that is too concrete, such as the Lamp.
+ * The "high-level policy" or "underlying abstraction" of our program is to "detect an on/off gesture from a user and relay that gesture to a target object. What mechanism is used to detect the user gesture? Irrelevant! What is the target object? Irrelevant! These are details that do not impact the abstraction". In iOS what does this remind you of?
+ * What we want to avoid is making this "high-level policy" (abstraction) depend on something that is too concrete, such as the Lamp.
  */
 
 
-// Button Example using DIP
+//: Button Example using DIP
 
 protocol ButtonServer {
   func turnOn()

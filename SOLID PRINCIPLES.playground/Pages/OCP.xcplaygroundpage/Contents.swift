@@ -6,10 +6,11 @@ import UIKit
 
 /*:
  ## Open-Close Principle (OCP)
- * "Software entities (classes, modules, functions, etc.) should be open for extension but closed for modification"
- * The idea is to write code in such a way that it never needs to be changed but at the same time allow features to be added.
- * "Open for extention" means that we can add behaviour to our code.
- * "Closed for modification" means we don't have to modify dependent entities.
+ * The O.
+ * "Software entities (classes, modules, functions, etc.) should be open for extension but closed for modification".
+ * The idea is to write some code in such a way that it never needs to be changed but at the same time allow features to be added.
+ * "Open for extention" means that we can still add behaviour to our code.
+ * "Closed for modification" means we can extend without modification.
  * Abstraction and polymorphism are the key.
  * There are essentially two ways to do this: 1) using abstract base classes and inheritance, or 2) using interfaces.
  * Neither Objc nor Swift support true abstract classes or abstract methods like some languages. So, I'll just focus on interfaces instead.
@@ -24,7 +25,7 @@ struct User { }
 
 class Stripe1 {
   func charge(user: User, amount: Int) {
-    print("stripe processing charge")
+    print(#line, "stripe processing charge")
   }
 }
 
@@ -46,18 +47,18 @@ class Purchase1 {
 // Purchase Example: Using OCP
 
 protocol PaymentService {
-  func charge(user: User, amount: Int)
+  func charge(_ user: User, amount: Int)
 }
 
 class Stripe2: PaymentService {
-  func charge(user: User, amount: Int) {
-    print("stripe processing charge")
+  func charge(_ user: User, amount: Int) {
+    print(#line, "stripe processing charge", amount)
   }
 }
 
 class PayPal: PaymentService {
-  func charge(user: User, amount: Int) {
-    print("Paypal processing charge")
+  func charge(_ user: User, amount: Int) {
+    print(#line, "Paypal processing charge", amount)
   }
 }
 
@@ -71,9 +72,9 @@ class Purchase2 {
     self.amount = amount
   }
   
-  func chargeUser() {
+  func charge(user: User) {
     // what if I want to use a different service?
-    service.charge(user: User(), amount: amount!)
+    service.charge(user, amount: amount!)
   }
 }
 
@@ -98,18 +99,18 @@ struct Square {
 }
 
 func drawSquare(square: Square) {
-  print("square drawn")
+  print(#line, "square drawn")
 }
 
 func drawCircle(circle: Circle) {
-  print("circle drawn")
+  print(#line, "circle drawn")
 }
 
 let c1 = Circle(radius: 20, center: .zero)
 let s1 = Square(side: 29, point: .zero)
 let shapes: [Any] = [c1, s1]
 
-// in a real application there would be many more shapes, and there would likely be switches everywhere to handle everything, which is a total nightmare especially if you have to add new shapes!
+//: In a real application there would be many more shapes, and there would likely be switches everywhere to handle everything, which is a total nightmare especially if you have to add new shapes!
 
 func printAllShapes(shapes: [Any]) {
   for shape in shapes {
@@ -180,7 +181,7 @@ printAllShapes2(shapes: shapes2)
  * Uncle Bob warns agains applying "rapant abstraction to every part of the application".
  * The developer should apply abstractions judiciously to the parts of the application that exhibit frequent change.
  * Abstraction can add unnecessary complexity.
- * Is it true that frequent change should be the only axis that determines our use of abstractions?
+ * Question: How does the refactored Copy program obey OCP?
  */
 
 
