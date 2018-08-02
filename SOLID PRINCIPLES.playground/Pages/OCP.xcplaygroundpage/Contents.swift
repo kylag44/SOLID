@@ -40,7 +40,7 @@ class Purchase1 {
   
   func chargeUser() {
     // what if I want to use a different service?
-    stripe.charge(user: User(), amount: amount!)
+    stripe.charge(user: User(), amount: amount)
   }
 }
 
@@ -74,7 +74,7 @@ class Purchase2 {
   
   func charge(user: User) {
     // what if I want to use a different service?
-    service.charge(user, amount: amount!)
+    service.charge(user, amount: amount)
   }
 }
 

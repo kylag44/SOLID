@@ -17,7 +17,7 @@ import Foundation
 
 class Lamp1 {
   // affects external environment
-  // when turned on it illuminates a light of some kind & vice versa
+  // when turned on it illuminates a light of some kind
   var isOn: Bool = false
   func turnOn() {
     isOn = true
@@ -121,7 +121,7 @@ class MotorAdapter: ButtonServer {
   }
 }
 
-// Same thing with an extension in Swift (Cool!)
+// Same thing with an extension in Swift 🆒
 
 extension Motor: ButtonServer {
   func turnOn() {

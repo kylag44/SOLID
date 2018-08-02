@@ -27,9 +27,8 @@ class Mallard: Duck {
 
 class Decoy: Duck {
   override func fly() {
-    // do nothing because Decoy Ducks can't fly
-    // or throw an error!
-//    fatalError()
+    // Decoy is forced to depend on `fly()` even though it does not need this method.
+    //    fatalError()
   }
 }
 
@@ -63,6 +62,7 @@ for duck in ducks {
 //: Move the method out of Duck and into an interface.
 
 class Duck2 { }
+
 protocol Flyable {
   func fly()
 }
@@ -85,7 +85,7 @@ extension Flyable {
 }
 
 class CanadaGoose: Duck2, Flyable {
-  // if we don't implement fly() it gets the default implementation from the Flyable extension!
+  // if we don't implement fly() it gets the default implementation from the Flyable extension! 🆒
 }
 
 class RubberDuck: Duck2 {
