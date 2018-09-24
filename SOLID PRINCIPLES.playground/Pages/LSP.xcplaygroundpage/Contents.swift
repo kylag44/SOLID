@@ -11,14 +11,14 @@ import Foundation
  * The L.
  * "Subtypes must be substitutable for their base types."
  * General idea:
- * I have a function that takes a parameter of a specific type. I pass in an upcast object. But this upcast object causes some unexpected behaviour because there is a violation of LSP.
+ * I have a function that takes a parameter of a specific type. I pass in an upcast object. But this upcast object causes some unexpected behaviour inside the function because there is a violation of LSP.
  * Eg.
  */
 
 class BaseClass { }
 class DerivedClass: BaseClass {}
-func f(p: BaseClass) {}
-f(p: DerivedClass()) // this misbehaves
+func f(x: BaseClass) {}
+f(x: DerivedClass()) // calling f(x:) with the subtype causes  misbehavior
 
 // Square / Rectangle Classic Example
 
@@ -151,7 +151,6 @@ class MyApp {
 }
 
 /*:
- * What principles are violated here and why?
  * To fix this we should Create 2 separate interfaces
  */
 

@@ -96,9 +96,11 @@ class Book2 {
     self.author = author
     self.dataManager = dataManager
   }
+  
   func save() {
     self.dataManager.save()
   }
+  
 }
 
 class MyVC2: UIViewController {

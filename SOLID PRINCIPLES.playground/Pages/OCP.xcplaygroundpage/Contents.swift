@@ -10,8 +10,8 @@ import UIKit
  * "Software entities (classes, modules, functions, etc.) should be open for extension but closed for modification".
  * The idea is to write some code in such a way that it never needs to be changed but at the same time allow features to be added.
  * "Open for extention" means that we can still add behaviour to our code.
- * "Closed for modification" means we can extend without modification.
- * Abstraction and polymorphism are the key.
+ * "Closed for modification" means we can extend without modifying existing code.
+ * Abstraction and polymorphism are again key.
  * There are essentially two ways to do this: 1) using abstract base classes and inheritance, or 2) using interfaces.
  * Neither Objc nor Swift support true abstract classes or abstract methods like some languages. So, I'll just focus on interfaces instead.
  * BTW, the refactored Copy and Book examples both exhibited the open closed principle.
@@ -19,7 +19,6 @@ import UIKit
  */
 
 // Purchase Example: Disobeys OCP
-
 
 struct User { }
 
@@ -62,7 +61,8 @@ class PayPal: PaymentService {
   }
 }
 
-// Purchase2 can be extended with different services without needing to modify it
+// Purchase2 can be extended with different services without needing to modify it!
+
 class Purchase2 {
   private var amount: Int!
   private var service: PaymentService!
@@ -73,14 +73,12 @@ class Purchase2 {
   }
   
   func charge(user: User) {
-    // what if I want to use a different service?
     service.charge(user, amount: amount)
   }
 }
 
 
 // Example2 Shapes disobeying OCP
-
 
 enum ShapeType {
   case circle, square
@@ -110,10 +108,11 @@ let c1 = Circle(radius: 20, center: .zero)
 let s1 = Square(side: 29, point: .zero)
 let shapes: [Any] = [c1, s1]
 
-//: In a real application there would be many more shapes, and there would likely be switches everywhere to handle everything, which is a total nightmare especially if you have to add new shapes!
+//: In a real application there would be many more shapes, and there would likely be switches everywhere to handle everything!.
 
 func printAllShapes(shapes: [Any]) {
   for shape in shapes {
+    // switch cases are a code smell here
     if shape is Circle {
       drawCircle(circle: shape as! Circle)
     } else if shape is Square {
@@ -132,9 +131,7 @@ enum ShapeType2 {
 }
 
 protocol Shape {
-  var shapeType: ShapeType2 {
-    get
-  }
+  var shapeType: ShapeType2 { get }
   func draw()
 }
 
@@ -157,7 +154,7 @@ struct Square2: Shape {
 }
 
 struct Triangle: Shape {
-  // details omitted
+  // details omitted...
   let shapeType: ShapeType2 = .triangle
   func draw() {
     print("draw a bunch of triangle stuff")
@@ -167,19 +164,19 @@ struct Triangle: Shape {
 let c2 = Circle2(radius: 20, center: .zero)
 let s2 = Square2(side: 29, point: .zero)
 let t1 = Triangle()
-let shapes2: [Shape] = [c2, s2, t1]
 
-func printAllShapes2(shapes:[Shape]) {
+let shapes2: [Shape] = [c2, s2, t1] // notice no Any array
+
+func printAll(shapes: [Shape]) {
   // compare to line 116!
   shapes.map{ $0.draw() }
 }
 
-printAllShapes2(shapes: shapes2)
-
+printAll(shapes: shapes2)
 
 /*:
  * Uncle Bob warns agains applying "rapant abstraction to every part of the application".
- * The developer should apply abstractions judiciously to the parts of the application that exhibit frequent change.
+ * You should apply abstractions judiciously to the parts of the application that exhibit frequent change.
  * Abstraction can add unnecessary complexity.
  * Question: How does the refactored Copy program obey OCP?
  */

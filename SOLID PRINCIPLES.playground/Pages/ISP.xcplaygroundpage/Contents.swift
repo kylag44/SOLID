@@ -8,7 +8,7 @@ import Foundation
  ## Interface Segregation Principle (ISP)
  * The I.
  * "Clients should not be forced to depend on methods that they do not use"
- * This is not really a problem in either Objc or Swift since we don't have abstract classes, although we could end up littering our code with a lot of optional protocol methods. Does Swift allow optional protocol methods?
+ * This is not really a problem in either Objc or Swift since we don't have abstract classes, although we could end up littering our code with a lot of optional protocol methods. Actually, maybe optional protocol methods are a code smell! Think about the complexity costs of not having optional protocols methods!
  * Here's the general idea:
  */
 

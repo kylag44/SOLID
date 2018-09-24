@@ -53,12 +53,12 @@ class Printer {
 
 class Copy1 {
   let kb = Keyboard()
-  let prt = Printer()
+  let ptr = Printer()
   func copy() {
     for _ in 0..<10 {
       let unicodeChar = kb.readKeyboard()
       print(#line, "start")
-      prt.prnt(unicodeChar)
+      ptr.prnt(unicodeChar)
       print(#line, "end")
     }
   }
@@ -70,8 +70,9 @@ copy1.copy()
 
 /*:
  ## 1st Change
- * The client would like the Copy app to also be able read from a *tape reader* 🚑.
- * You'd like to pass a Bool into the copy function. What's the problem with changing the signature of `Copy1's copy()` method by adding a Bool parameter on an in production app?
+ * The client would like the Copy app to also be able read from a *tape reader* 🦖.
+ * You'd like to pass a Bool into the copy function.
+ * What might be problematic with changing the signature of `Copy1's copy()` method by adding a Bool parameter?
  * Since you can't add a Bool to the signature of `copy` how can we add logic to handle sometimes using a *tape reader*?
  */
 
@@ -85,25 +86,25 @@ class TapeReader {
 
 
 class Copy2 {
-  var inputFlag = false
+  var isTapeReader = false
   let kb = Keyboard()
-  let prt = Printer()
+  let ptr = Printer()
   let tapeRdr = TapeReader()
   
   func copy() {
     for _ in 0..<10 {
-      let unicodeChar = !inputFlag ? kb.readKeyboard(): tapeRdr.readPaperTape()
+      let unicodeChar = isTapeReader == true ? tapeRdr.readPaperTape() :  kb.readKeyboard()
       print(#line, "start")
-      prt.prnt(unicodeChar)
+      ptr.prnt(unicodeChar)
       print(#line, "end")
     }
   }
 }
 
 let copy2 = Copy2()
-copy2.inputFlag = true
+copy2.isTapeReader = true
 copy2.copy()
-copy2.inputFlag = false
+copy2.isTapeReader = false
 copy2.copy()
 
 
@@ -122,17 +123,17 @@ class NetworkPrinter {
 }
 
 class Copy3 {
-  var inputFlag:Bool = false
-  var outputFlag:Bool = false
+  var isTapeReader: Bool = false
+  var isPrinter: Bool = false
   let kb = Keyboard()
-  let prt = Printer()
+  let ptr = Printer()
   let tapeRdr = TapeReader()
   let nw = NetworkPrinter()
   func copy() {
     for _ in 0..<10 {
       print(#line, "start")
-      let unicodeChar = inputFlag == false ? kb.readKeyboard(): tapeRdr.readPaperTape()
-      outputFlag == false ? prt.prnt(unicodeChar) : nw.networkPrint(unicodeChar)
+      let unicodeChar = isTapeReader == true ? tapeRdr.readPaperTape() : kb.readKeyboard()
+      isPrinter == true ? ptr.prnt(unicodeChar) : nw.networkPrint(unicodeChar)
       print(#line, "end")
     }
   }
@@ -140,7 +141,8 @@ class Copy3 {
 
 /*:
  * So we can see where this is going!
- * Our original simple program has become twisted as we try to keep up with the changing requirements. Rot has set in 💩.
+ * Our original simple program has become twisted as we try to keep up with the changing requirements.
+ * Rot has set in 💩💩💩.
  */
 
 // COPY with interface
@@ -192,19 +194,15 @@ let crazyPrinterCopier = CrazyPrinterCopier()
 let copy5 = Copy4()
 copy5.copy(input: crazyPrinterCopier, output: crazyPrinterCopier)
 
-
-/*:
- * What specific design smells did the old Copy program exhibit?
- */
 /*:
  * Copy is a "higher level module" than either the Printer or the Keyboard.
  * By this we mean that `Copy` is less concrete than either Printer or Keyboard.
- * If we think about what `copy()` does generally then we can say that it takes an input (it doesn't really care about the source 🤷🏻‍♂️) from an input device and passes it to an output device (it doesn't care about the output device 🤷🏻‍♂️).
+ * If we think about what `copy()` does generally then we can say that it takes an input from an input device (it doesn't really care about the concrete source 🤷🏻‍♂️) and passes it to an output device (it doesn't care which concrete output device 🤷🏻‍♂️).
  * The Printer module and the Keyboard module are both more concrete. They output to paper, and input from a keyboard respectively.
- * So, what we have is a dependency from a higher level module Copy (more abstract) and two lower level modules that are tangled up with specific details (more concrete). Copy is dependent on modules that are more concrete than it is.
+ * So, what we have is a dependency from a higher level module Copy (more abstract) and two lower level modules that are tangled up with specific real world details (more concrete). Copy is dependent on modules that are more concrete than it is.
  * The problem with Copy being dependent on the concrete details of Printer and Keyboard is that when these change then they break Copy. We are forced to update Copy to make a change.
  * What creating an interface does for us is wrap the concrete Printer and Keyboard in an abstract wrapper so that we can refer to them abstractly, and hence we are no longer dependent on any concrete details.
- * This is a good example of what is called _dependency inversion_ 🙃.
+ * This is a good example of what is called _dependency inversion_ 🙃. More on this in a minute.
  * We are also utilizing polymorphism. Explain.
  * Another way of describing what we've done to solve this problem is that we have "encapsulated", that is separated into its own structure, those dependencies that are likely to change, namely the concrete input and output entities.
  * The Copy program introduces a lot of powerful ideas that we will explore by considering each of the SOLID principles in turn.
